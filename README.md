@@ -4,16 +4,26 @@ Simple application that allows SCRUM teams to do tasks' estimation
 ## Configuration
 The service can be configured using the following command line flags
 
-| name | type | description | default value |
-| ---- | ---- | ----------- | ------------- |
-| `http.addr` | string | Listen address of the HTTP server | ":8080" |
-| `http.timeout` | duration string | Graceful Shutdown Timeout of the HTTP server | "10s" |
-| `log.json` | bool | Whether use JSON format for log messages | true |
-| `log.level` | "INFO", "DEBUG", "WARN", "ERROR" | Application log level | "INFO" |
-| `log.utc` | bool | Whether use UTC for log messages' timestamp | true |
+| name           | type                             | description                                  | default value |
+| -------------- | -------------------------------- | -------------------------------------------- | ------------- |
+| `http.addr`    | string                           | Listen address of the HTTP server            | ":8080"       |
+| `http.timeout` | duration string                  | Graceful Shutdown Timeout of the HTTP server | "10s"         |
+| `log.json`     | bool                             | Whether use JSON format for log messages     | true          |
+| `log.level`    | "INFO", "DEBUG", "WARN", "ERROR" | Application log level                        | "INFO"        |
+| `log.utc`      | bool                             | Whether use UTC for log messages' timestamp  | true          |
 
 ## Development
 
+### General
+This project uses [Taskfile](https://taskfile.dev/) as task runner. You don't need to install manually:
+it will be installed automatically by the `go tool` command at the first invocation.
+
+To see all available tasks, run the command
+```sh
+go -C tools tool task -l
+```
+
+### Run
 To run the service in development mode you have to run 
 
 ```sh
@@ -30,4 +40,17 @@ For instance with
 go -C tools tool task run -- -h
 ```
 you get all available command line parameters
+
+### Test
+To run web application Unit Tests run 
+```sh
+go -C tools tool task ui:test
+```
+
+To run server Unit Tests run 
+```sh
+go -C tools tool task server:test
+```
+
+
 

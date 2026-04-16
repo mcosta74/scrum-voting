@@ -19,6 +19,12 @@ tasks:
       - ./*.json
     generates:
       - dist/webapp/browser/*.*
+  
+  ui:test:
+    desc: Run web application Unit Tests
+    dir: ./webapp
+    cmds:
+      - ng test --watch=false {{.CLI_ARGS}}
 
   server:prepare:
     cmds:
@@ -43,6 +49,11 @@ tasks:
 
     cmds:
       - go build -o {{.BUILD_DIR}}/{{.EXE_NAME}}{{exeExt}} .
+
+  server:test:
+    desc: Run server Unit Tests
+    cmds:
+      - go test ./... {{.CLI_ARGS}}
   
   run:
     desc: Run the server application from a temporary build

@@ -35,12 +35,6 @@ func main() {
 	logger.Info("service started")
 	defer logger.Info("service stopped")
 
-	entries, err := staticFS.ReadDir(".")
-	if err == nil {
-		for _, entry := range entries {
-			fmt.Printf("%+v\n", entry)
-		}
-	}
 	var g run.Group
 	{
 		g.Add(run.SignalHandler(ctx, syscall.SIGINT, syscall.SIGTERM))
