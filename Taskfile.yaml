@@ -1,0 +1,59 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  BUILD_DIR: ./build
+  EXE_NAME: server
+  
+tasks:
+  ui:build:
+    desc: Build the web application
+    dir: ./webapp
+    cmds:
+      - ng build
+    sources:
+      - src/**/*.ts
+      - src/**/*.html
+      - src/**/*.scss
+      - ./*.json
+    generates:
+      - dist/webapp/browser/*.*
+
+  server:prepare:
+    cmds:
+      - mkdir -p {{.BUILD_DIR}}
+
+  server:clean:
+    cmds:
+      - go clean ./...
+      - rm -rf {{.BUILD_DIR}}
+
+  server:build:
+    desc: Build the server application
+    summary: |
+      Build the server application
+
+      It will build first the web application and then build the server part
+      embedding the web application in the server executable
+
+    deps:
+      - ui:build
+      - server:prepare
+
+    cmds:
+      - go build -o {{.BUILD_DIR}}/{{.EXE_NAME}}{{exeExt}} .
+  
+  run:
+    desc: Run the server application from a temporary build
+    summary: |
+      Run the server application
+
+      It will build first the web application and then build the server part
+      embedding the web application in the server executable
+
+    deps:
+      - ui:build
+    cmds:
+      - go run . {{.CLI_ARGS}}
+  
